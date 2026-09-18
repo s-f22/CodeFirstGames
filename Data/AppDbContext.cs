@@ -16,5 +16,21 @@ namespace CodeFirstGames.Data
         // Representa a tabela de generos
         public DbSet<Genero> Generos => Set<Genero>();
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // Fluent API
+            // Configura os relacionamentos entre as entidades
+            // Configura o relacionamento 1:N entre desenvolvedora e jogos
+            modelBuilder.Entity<Desenvolvedora>()
+                .HasMany(d => d.Games)
+                .WithOne(g => g.Desenvolvedora)
+                .HasForeignKey(g => g.DesenvolvedoraId);
+
+            modelBuilder.Entity<Game>()
+                .HasMany(g => g.Generos)
+                .WithMany(g => g.Games);
+        }
+
+
     }
 }
